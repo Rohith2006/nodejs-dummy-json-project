@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a REST API that serves and filters people data. It allows users to retrieve, sort, and filter information about individuals, including their names, languages, and other attributes.
+This project implements a REST API that serves and filters people data. It allows users to retrieve, sort, and filter information about individuals, including their names, languages, and other attributes. The project follows the Model-View-Controller (MVC) architecture for better organization and maintainability.
 
 ## Features
 
@@ -10,6 +10,7 @@ This project implements a REST API that serves and filters people data. It allow
 - Filter data by language
 - Sort data by various fields
 - Combine filtering and sorting operations
+- MVC architecture for improved code structure
 
 ## Prerequisites
 
@@ -21,16 +22,22 @@ This project implements a REST API that serves and filters people data. It allow
 ```
 people-data-api/
 │
-├── server.js
-├── data.js
+├── models/
+│   └── personModel.js
+├── controllers/
+│   └── personController.js
+├── app.js
+├── fetchData.js
 ├── data.json
 ├── package.json
 ├── package-lock.json
 └── README.md
 ```
 
-- `server.js`: The main server file containing the API logic.
-- `data.js`: Module for loading and managing data.
+- `models/personModel.js`: Handles data operations and business logic.
+- `controllers/personController.js`: Manages the flow between the model and the API response.
+- `app.js`: The main server file containing Express configuration and routes.
+- `fetchData.js`: Script for fetching and storing initial data.
 - `data.json`: The source data file containing the people information.
 - `package.json` and `package-lock.json`: Node.js package configuration files.
 - `README.md`: This documentation file.
@@ -50,16 +57,16 @@ people-data-api/
 
 ## Usage
 
-1. Run 'data.js' to fetch data:
+1. Run 'fetchData.js' to fetch initial data:
    ```
-   node data.js
+   node fetchData.js
    ```
 
 2. Ensure `data.json` is present in the project root directory with valid JSON data.
 
 3. Start the server:
    ```
-   npm run start
+   node app.js
    ```
 
 4. The server will run on `http://localhost:3000` by default.
@@ -128,71 +135,13 @@ The API serves data in the following format:
 ]
 ```
 
-## Data Source and Loading
+## MVC Architecture
 
-### data.json
+The project follows the Model-View-Controller (MVC) architecture:
 
-The `data.json` file is the primary data source for this API. It should be located in the root directory of the project.
-
-Sample content:
-
-```json
-[
-  {
-    "name": "Adeel Solangi",
-    "language": "Sindhi",
-    "id": "V59OF92YF627HFY0",
-    "bio": "Donec lobortis eleifend condimentum. Cras dictum dolor lacinia lectus vehicula rutrum.",
-    "version": 6.1
-  },
-  {
-    "name": "Afzal Ghaffar",
-    "language": "Sindhi",
-    "id": "ENTOCR13RSCLZ6KU",
-    "bio": "Aliquam sollicitudin ante ligula, eget malesuada nibh efficitur et.",
-    "version": 1.88
-  },
-  // ... more entries ...
-]
-```
-
-### data.js
-
-The `data.js` file is responsible for loading and managing the data. It exports a function to load data from `data.json`.
-
-```javascript
-// data.js
-const fs = require('fs');
-
-function loadData() {
-  try {
-    const rawData = fs.readFileSync('data.json');
-    return JSON.parse(rawData);
-  } catch (error) {
-    console.error('Error loading data:', error);
-    process.exit(1);
-  }
-}
-
-module.exports = { loadData };
-```
-
-### Usage in server.js
-
-The `server.js` file uses the `loadData` function from `data.js` to initialize the data:
-
-```javascript
-// server.js
-const express = require('express');
-const { loadData } = require('./data');
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-let people = loadData();
-
-// ... rest of the server code ...
-```
+- Model (`personModel.js`): Handles data operations and business logic.
+- Controller (`personController.js`): Manages the flow between the model and the API response.
+- View: Not applicable for this API, but could be implemented for documentation or a front-end interface.
 
 ## Error Handling
 
@@ -202,3 +151,8 @@ The API returns appropriate HTTP status codes and error messages for invalid req
 
 - Ensure that `data.json` is present and contains valid JSON data before starting the server.
 - The current implementation does not support data modification. Changes made through API calls affect only the in-memory data and are lost when the server restarts.
+- The MVC architecture improves code organization and maintainability.
+
+## Graceful Shutdown
+
+The server implements a graceful shutdown process to handle SIGTERM signals, ensuring that ongoing requests are completed before the server closes.
