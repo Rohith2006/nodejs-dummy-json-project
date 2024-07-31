@@ -21,7 +21,7 @@ This project implements a REST API that serves and filters people data. It allow
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/people-data-api.git
+   git clone https://github.com/Rohith2006/nodejs-dummy-json-project
    cd people-data-api
    ```
 
@@ -99,7 +99,7 @@ The API serves data in the following format:
     "bio": "String",
     "version": Number
   },
-  ...
+   ...
 ]
 ```
 
