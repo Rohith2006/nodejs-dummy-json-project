@@ -50,14 +50,19 @@ people-data-api/
 
 ## Usage
 
-1. Ensure `data.json` is present in the project root directory with valid JSON data.
-
-2. Start the server:
+1. Run 'data.js' to fetch data:
    ```
-   node server.js
+   node data.js
    ```
 
-3. The server will run on `http://localhost:3000` by default.
+2. Ensure `data.json` is present in the project root directory with valid JSON data.
+
+3. Start the server:
+   ```
+   npm run start
+   ```
+
+4. The server will run on `http://localhost:3000` by default.
 
 ## API Endpoints
 
